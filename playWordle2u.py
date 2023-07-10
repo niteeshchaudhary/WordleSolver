@@ -1,12 +1,9 @@
 import random
 import time
 import selector
-import cvzone
 import pyautogui as pg
 import numpy as np
 import cv2
-import json
-from difflib import get_close_matches
 from tkinter import *
 import os
 from tkinter import messagebox
