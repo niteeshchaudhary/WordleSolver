@@ -11,7 +11,7 @@ from tkinter import messagebox
 class Game:
     def __init__(self):
         self.data = [*open("dict.txt").read().split("\n")]
-        self.wd = []
+        self.wd = self.data
         self.p = ['*', '*', '*', '*', '*']
         self.v = ['*', '*', '*', '*', '*']
         self.b = ""
@@ -44,13 +44,11 @@ class Game:
     def getWord(self,n=6):
         print("**",self.v,self.p.count("*"))
         if n < 4 and (10-self.p.count("*")-self.v.count("*")) < 5:
+            self.wd = list(filter(lambda x: self.checker(x), self.wd))
+            print(len(self.wd))
             return self.suggest[n]
-        else:
-            if len(self.wd)>0:
-                self.wd = list(filter(lambda x: self.checker(x), self.wd))
-            else:
-                self.wd = list(filter(lambda x: self.checker(x), self.data))
-                
+        else:   
+            self.wd = list(filter(lambda x: self.checker(x), self.wd))
             if len(self.wd) == 0:
                 print("Word does not exists in our dictionary")
                 exit()
@@ -59,6 +57,7 @@ class Game:
 
 
     def play(self):
+        self.wd = self.data
         screenshot = pg.screenshot()
         screenshot = cv2.cvtColor(np.array(screenshot), cv2.COLOR_RGB2BGR)
         board=""
@@ -102,6 +101,7 @@ class Game:
                 3)
             i = 0
             while i < 6:
+                
                 for ind in range(5):
                     if i == 0:
                         pg.click(bl, bt)
@@ -114,6 +114,7 @@ class Game:
                         (255, 0, 255), 3)
 
                 wrd = self.getWord(i)
+                self.v=["*","*","*","*","*"]
                 if wrd == prev:
                     if roi!="": os.remove(f"./boardpng/blk{num_files+1}.png")
                     error()
@@ -129,19 +130,17 @@ class Game:
                 for wind in range(5):
                     b, g, r = screenshot[bt + blkh * i + 8, bl + blkw * wind + blkw // 2]
                     cv2.circle(screenshot, (bl + blkw * wind + blkw // 2, bt + blkh * i + 8), 5, (0, 0, 255), -1)
-                    if [int(b), int(g), int(r)] == [59, 159, 181]:
+                    if [int(b), int(g), int(r)] == [59, 159, 181] or [int(b), int(g), int(r)]==[55, 194, 243]:
                         self.v[wind]=wrd[wind]
-                    elif [int(b), int(g), int(r)] == [78, 141, 83]: 
-                        if wrd[wind] in self.v:
-                            self.v[wind]="*"
+                    elif [int(b), int(g), int(r)] == [78, 141, 83] or [int(b), int(g), int(r)] == [81, 184, 121]: 
                         self.p[wind] = wrd[wind]
                         cntg += 1
-                    elif [int(b), int(g), int(r)] == [60, 58, 58]:
+                    elif [int(b), int(g), int(r)] == [60, 58, 58] or [int(b), int(g), int(r)]==[84, 64, 61]:
                         if(self.p[wind] == ''):
                             self.p[wind] = '*'
                         self.b += wrd[wind]
                     elif [int(b), int(g), int(r)] == [19, 18, 18] or [int(b), int(g), int(r)]==[43, 43, 43] or\
-                            [int(b), int(g), int(r)]==[88, 87, 86]:
+                            [int(b), int(g), int(r)]==[88, 87, 86] :
                         cv2.imshow("scrn", screenshot)
                         cv2.waitKey(0)
                         pg.typewrite(["backspace"] * 5)
@@ -159,7 +158,7 @@ class Game:
                         cv2.waitKey(0)
                         error()
                         return 0
-                    print("&*", self.p, self.b, i)
+                    print("&*", self.p,self.v, self.b, i)
 
                 if cntg >= 5:
                     return 1
