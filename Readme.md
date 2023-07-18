@@ -10,4 +10,4 @@ Selection of grid
 ![images](images/4.png)
 Completed Solving
 ![images](images/5.png)
-Stats of %50 games played by Wordle Solver
+Stats of 50% games played by Wordle Solver
