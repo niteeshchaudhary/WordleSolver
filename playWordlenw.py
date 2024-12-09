@@ -91,7 +91,7 @@ class Game:
             cntgc=0
             errv = 4
             errw = 1
-            bh = board.height
+            bh = board.height+3
             bw = board.width
             bl = board.left
             bt = board.top
@@ -113,8 +113,8 @@ class Game:
                     print(ind)
                     cv2.rectangle(
                         screenshot,
-                        (bl + blkw * ind, bt + blkh * i),
-                        (bl + blkw * ind + blkw, bt + blkh * i + blkh),
+                        (bl + blkw * ind, bt + blkh * i+errv),
+                        (bl + blkw * ind + blkw, bt + blkh * i + errv + blkh),
                         (255, 0, 255), 3)
 
                 wrd = self.getWord(i)
@@ -131,18 +131,23 @@ class Game:
                 screenshot = pg.screenshot()
                 screenshot = cv2.cvtColor(np.array(screenshot), cv2.COLOR_RGB2BGR)
                 cntg = 0
+                wn=0
                 for wind in range(5):
-                    b, g, r = screenshot[bt + blkh * i + 8, bl + blkw * wind + blkw // 2]
-                    cv2.circle(screenshot, (bl + blkw * wind + blkw // 2, bt + blkh * i + 8), 5, (0, 0, 255), -1)
-                    if [int(b), int(g), int(r)] == [59, 159, 181] or [int(b), int(g), int(r)]==[55, 194, 243]:
+                    b, g, r = screenshot[bt+errv+ + blkh * i + 8, bl + blkw * wind + blkw // 2]
+                    cv2.circle(screenshot, (bl+errv + blkw * wind + blkw // 2, bt + blkh * i + 8), 5, (0, 0, 255), -1)
+                    if [int(b), int(g), int(r)] == [59, 159, 181] or [int(b), int(g), int(r)]==[55, 194, 243] or [int(b), int(g), int(r)]==[88, 180, 201]:
                         self.v[wind]=wrd[wind]
-                    elif [int(b), int(g), int(r)] == [78, 141, 83] or [int(b), int(g), int(r)] == [81, 184, 121]: 
+                    elif [int(b), int(g), int(r)] == [78, 141, 83] or [int(b), int(g), int(r)] == [81, 184, 121] or [int(b), int(g), int(r)] ==[100, 170, 106]: 
                         self.p[wind] = wrd[wind]
                         cntg += 1
-                    elif [int(b), int(g), int(r)] == [60, 58, 58] or [int(b), int(g), int(r)]==[84, 64, 61]:
+                    elif [int(b), int(g), int(r)] == [60, 58, 58] or [int(b), int(g), int(r)]==[84, 64, 61] or [int(b), int(g), int(r)]==[126, 124, 120]:
                         if(self.p[wind] == ''):
                             self.p[wind] = '*'
                         self.b += wrd[wind]
+                    elif [int(b), int(g), int(r)] == [255, 255, 255]:
+                        wn+=1
+                        if(wn==5):
+                            return 1
                     elif [int(b), int(g), int(r)] == [19, 18, 18] or [int(b), int(g), int(r)]==[43, 43, 43] or\
                             [int(b), int(g), int(r)]==[88, 87, 86] :
                         cv2.imshow("scrn", screenshot)

@@ -120,10 +120,15 @@ class Game:
         board=""
         folder_path = "./boardun"
         num_files = len(os.listdir(folder_path))
-        for regi in range(1, num_files+1):
-            board = pg.locateOnScreen(f'./boardun/wt{regi}.png')
-            if board:
-                break
+        for regi in os.listdir(folder_path):
+            print(f'./boardun/{regi}')
+            try:
+                board = pg.locateOnScreen(f'./boardun/{regi}')
+                if board:
+                    break
+            except Exception as e :
+                print(e)
+                pass
         exe = ''
         word = ['', '', '', '', '', '*', '*', '*', '*', '*']
         roi = ""
