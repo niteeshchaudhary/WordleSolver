@@ -51,7 +51,7 @@ class Game:
             self.wd = list(filter(lambda x: self.checker(x), self.wd))
             if len(self.wd) == 0:
                 print("Word does not exists in our dictionary")
-                exit()
+                error2("Word does not exists in our dictionary")
             print(self.wd)
             return self.wd[0]
 
@@ -135,12 +135,12 @@ class Game:
                 for wind in range(5):
                     b, g, r = screenshot[bt+errv+ + blkh * i + 8, bl + blkw * wind + blkw // 2]
                     cv2.circle(screenshot, (bl+errv + blkw * wind + blkw // 2, bt + blkh * i + 8), 5, (0, 0, 255), -1)
-                    if [int(b), int(g), int(r)] == [59, 159, 181] or [int(b), int(g), int(r)]==[55, 194, 243] or [int(b), int(g), int(r)]==[88, 180, 201]:
+                    if [int(b), int(g), int(r)] in [[13, 207, 241], [59, 159, 181],[55, 194, 243],[88, 180, 201]]:
                         self.v[wind]=wrd[wind]
-                    elif [int(b), int(g), int(r)] == [78, 141, 83] or [int(b), int(g), int(r)] == [81, 184, 121] or [int(b), int(g), int(r)] ==[100, 170, 106]: 
+                    elif [int(b), int(g), int(r)] in [[78, 141, 83],[81, 184, 121],[100, 170, 106],[0, 128, 0]]: 
                         self.p[wind] = wrd[wind]
                         cntg += 1
-                    elif [int(b), int(g), int(r)] == [60, 58, 58] or [int(b), int(g), int(r)]==[84, 64, 61] or [int(b), int(g), int(r)]==[126, 124, 120]:
+                    elif [int(b), int(g), int(r)] in [[60, 58, 58] ,[196, 174, 164], [84, 64, 61] ,[126, 124, 120],[162, 162, 169]]:
                         if(self.p[wind] == ''):
                             self.p[wind] = '*'
                         self.b += wrd[wind]
@@ -182,10 +182,20 @@ class Obj:
         self.height=b_inf[3]-b_inf[1]
 
 
-def startGame(ref):
+def startGame(ref,button):
     ref.destroy()
     gm = Game()
+    # button.config(state="disabled")
     gm.play()
+    menu()
+    # button.config(state="normal")
+
+def error2(msg):
+    mn = Tk()
+    messagebox.showerror("Error", msg)
+    exit()
+    mn.mainloop()
+    
 
 def error():
     mn = Tk()
@@ -196,7 +206,7 @@ def error():
 def menu():
     mn = Tk()
     mn.geometry('%dx%d+%d+%d' % (300, 50, mn.winfo_screenwidth() // 2, mn.winfo_screenheight() // 2))
-    button = Button(mn, text='Solve', command=lambda: startGame(mn))
+    button = Button(mn, text='Solve', command=lambda: startGame(mn,button))
     button.pack(side=TOP, pady=5)
     mn.mainloop()
 
