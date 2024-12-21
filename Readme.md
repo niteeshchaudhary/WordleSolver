@@ -1,4 +1,8 @@
-For NYT Wordle supporting light/dark theme use playWordlenw
+To play NYT Wordle (supporting light/dark theme):
+- python -m venv venv
+- venv/Scripts/activate or source venv/bin/activate
+- pip install requirements.txt
+- python playwordle.py
 
 To understand appraoch of this solver read Wordle_Solver.pdf
 ![images](images/1.png)
