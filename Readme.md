@@ -1,5 +1,5 @@
-For NYT Wordle dark theme use playWordle.py
-For Wordle unlimited light theme use playWordle2u
+For NYT Wordle supporting light/dark theme use playWordlenw
+
 To understand appraoch of this solver read Wordle_Solver.pdf
 ![images](images/1.png)
 Click Solve button to Start
